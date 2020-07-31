@@ -3,8 +3,8 @@ import './Game.css';
 
 // size of the grid and the current generation count
 const CELL_SIZE = 20;
-var WIDTH = 1000;
-var HEIGHT = 1000;
+// var WIDTH = 1000;
+// var HEIGHT = 1000;
 var currentgeneration = 0
 
 
@@ -28,22 +28,28 @@ class Game extends React.Component {
 
     constructor() {
         super();
-        this.rows = HEIGHT / CELL_SIZE;
-        this.cols = WIDTH / CELL_SIZE;
+        this.rows = this.state.HEIGHT / CELL_SIZE;
+        this.cols = this.state.WIDTH / CELL_SIZE;
 
         this.board = this.makeEmptyBoard();
     }
 
     state = {
+        WIDTH : 1000,
+        HEIGHT : 1000,
         cells: [],
         isRunning: false,
         interval: 100,
     }
 
-    handleGridSize = (event) => {
-        WIDTH = event.width.value
-        HEIGHT = event.height.value
-    }
+    // handleWidthChange = (event) => {
+    //     this.setState({ WIDTH: event.target.value })
+    // }
+
+    // handleHeightChange = (event) => {
+    //     this.setState({ HEIGHT: event.target.value })
+    // }
+
 
     makeEmptyBoard() {
         let board = [];
@@ -100,6 +106,11 @@ class Game extends React.Component {
     runGame = () => {
         this.setState({ isRunning: true });
         this.runIteration();
+    }
+
+    runOneIteration = () => {
+        this.runIteration()
+        this.stopGame()
     }
 
     // pauses the game
@@ -191,7 +202,7 @@ class Game extends React.Component {
             <div>
                 <div>Current Generation: {currentgeneration}</div>
                 <div className="Board"
-                    style={{ width: WIDTH, height: HEIGHT, backgroundSize: `${CELL_SIZE}px ${CELL_SIZE}px`}}
+                    style={{ width: this.state.WIDTH, height: this.state.HEIGHT, backgroundSize: `${CELL_SIZE}px ${CELL_SIZE}px`}}
                     onClick={this.handleClick}
                     ref={(n) => { this.boardRef = n; }}>
 
@@ -201,21 +212,16 @@ class Game extends React.Component {
                 </div>
 
                 <div className="controls">
-                    <form onSubmit={this.handleGridSize}>
-                        <div>
-                            <form onSubmit={event => this.handleGridSize(event)}>
-                                <label>Width</label>
-                                <input name='width' type='text'/>
-                                <label>Height</label>
-                                <input name='height' type='text'/>
-                                <button>Submit</button>
-                            </form>
-                        </div>
-                    </form>
+                    {/* Change the grid Width <input value={this.state.WIDTH} onChange={this.handleWidthChange} />
+                    and the grid Height <input value={this.state.HEIGHT} onChange={this.handleHeightChange} /> */}
                     Update every <input value={this.state.interval} onChange={this.handleIntervalChange} /> milliseceonds
                     {isRunning ?
                         <button className="button" onClick={this.stopGame}>Stop the Game</button> :
                         <button className="button" onClick={this.runGame}>Run the Game</button>
+                    }
+                    {isRunning ?
+                    null :
+                    <button className="button" onClick={this.runOneIteration}>Run a Single Generation</button>
                     }
                     <button className="button" onClick={this.handleRandom}>Random Board</button>
                     <button className="button" onClick={this.handleClear}>Clear the Board</button>
