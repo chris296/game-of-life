@@ -1,0 +1,25 @@
+.Board {
+    position: relative;
+    margin: 0 auto;
+    background-color: rgb(6, 199, 199);
+    background-image:
+        linear-gradient(#333 1px, transparent 1px),
+        linear-gradient(90deg, #333 1px, transparent 1px);
+}
+
+.Cell {
+    background: rgb(236, 232, 2);
+    position: absolute;
+}
+
+.controls {
+    margin-top: 20px;
+}
+
+.button {
+    margin-left: 12px;
+    cursor: pointer;
+}
+.Title {
+    text-align: center;
+}
